@@ -85,3 +85,4 @@ git clone https://github.com/pmndrs/react-three-next
 ### Maintainers :
 
 - [`twitter 🐈‍⬛ @onirenaud`](https://twitter.com/onirenaud)
+# apprenticeship
