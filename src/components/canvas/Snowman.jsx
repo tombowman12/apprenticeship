@@ -6,24 +6,40 @@ Command: npx gltfjsx@6.5.0 /Users/tombowman/Documents/apprenticeship/apprentices
 */
 
 import React from 'react'
-import { useGLTF } from '@react-three/drei'
+import { Stage, Text, useGLTF } from '@react-three/drei'
 import { MeshStandardMaterial } from 'three'
+import { CuboidCollider, RigidBody } from '@react-three/rapier'
 
-export default function Model(props) {
+export default function Model({ totalScore, setTotalScore }) {
   const { nodes, materials } = useGLTF('/snowman.glb')
+
+
   return (
-    <group {...props} dispose={null}>
-      <group position={[-0.982, 1.75, 0.467]} rotation={[2.743, 0, -Math.PI]} scale={[-1.128, -1, -0.039]}>
-        <mesh geometry={nodes.Cube003_1.geometry} material={materials.Blue} />
-        <mesh geometry={nodes.Cube003_2.geometry} material={materials.Material} />
-      </group>
-      <mesh geometry={nodes.Cone.geometry} material={materials.orange} position={[-0.944, 2.713, 0.334]} rotation={[1.111, 0, 0]} scale={[0.141, 0.233, 0.141]} />
-      <mesh geometry={nodes.Cylinder.geometry} material={materials.black} position={[-0.544, 2.859, 0.035]} rotation={[1.189, 0, 0]} scale={0.084} />
-      <mesh geometry={nodes.Cylinder001.geometry} material={materials.black} position={[-1.343, 2.859, 0.035]} rotation={[1.189, 0, 0]} scale={0.084} />
-      <mesh geometry={nodes.Cube001.geometry} material={materials.Material} position={[-2.891, 1.706, 0.503]} rotation={[2.755, 0, 0]} scale={[1, 0.076, 0.034]} />
-      <mesh geometry={nodes.Cube002.geometry} material={materials.Material} position={[0.9, 1.595, 0.553]} rotation={[2.83, 0, -Math.PI]} scale={[1, 0.076, 0.034]} />
-      <mesh geometry={nodes.Cube003.geometry} material={materials.black} position={[-2.744, 2.293, 0.207]} rotation={[-0.428, 1.571, 0]} scale={[0.027, 0.3, 0.3]} />
+    <group>
+      <Stage>
+        <RigidBody position={[0, 0, 10]} type='fixed' friction={0} colliders='trimesh' scale={2}>
+          <group dispose={null} >
+            <group position={[-0.982, 1.75, 0.467]} rotation={[2.743, 0, -Math.PI]} scale={[-1.128, -1, -0.039]}>
+              <mesh geometry={nodes.Cube003_1.geometry} material={materials.Blue} />
+              <mesh geometry={nodes.Cube003_2.geometry} material={materials.Material} />
+            </group>
+            <mesh geometry={nodes.Cone.geometry} material={materials.orange} position={[-0.944, 2.713, 0.334]} rotation={[1.111, 0, 0]} scale={[0.141, 0.233, 0.141]} />
+            <mesh geometry={nodes.Cylinder.geometry} material={materials.black} position={[-0.544, 2.859, 0.035]} rotation={[1.189, 0, 0]} scale={0.084} />
+            <mesh geometry={nodes.Cylinder001.geometry} material={materials.black} position={[-1.343, 2.859, 0.035]} rotation={[1.189, 0, 0]} scale={0.084} />
+            <mesh geometry={nodes.Cube001.geometry} material={materials.Material} position={[-2.891, 1.706, 0.503]} rotation={[2.755, 0, 0]} scale={[1, 0.076, 0.034]} />
+            <mesh geometry={nodes.Cube002.geometry} material={materials.Material} position={[0.9, 1.595, 0.553]} rotation={[2.83, 0, -Math.PI]} scale={[1, 0.076, 0.034]} />
+            <group position={[-2.744, 2.293, 0.207]} rotation={[-0.428, 1.571, 0]} scale={[0.027, 0.3, 0.3]}>
+              <mesh geometry={nodes.Cube003.geometry} material={materials.black}  >
+              </mesh>
+              <Text rotation={[0, Math.PI / -4, 0]} position={[-2, 0, 0]} color={'red'} fontSize={2}>{totalScore}</Text>
+            </group>
+
+          </group>
+        </RigidBody>
+      </Stage>
     </group>
+
+
   )
 }
 
