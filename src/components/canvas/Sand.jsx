@@ -29,7 +29,7 @@ export function Sand({ toalScore, setTotalScore }) {
     const weighting = Math.random() * 2
     const xIsPositive = Math.random() > 0.5
     if (impulse) {
-      bagRef.current?.applyImpulse({ x: xIsPositive ? -0.01 : 0.01, y: 0.02 * weighting, z: -0.03 * weighting }, true)
+      bagRef.current?.applyImpulse({ x: xIsPositive ? -0.01 * weighting : 0.01 * weighting, y: 0.02 * weighting, z: -0.03 * weighting }, true)
     }
   })
 
