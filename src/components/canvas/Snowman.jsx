@@ -9,13 +9,23 @@ import React from 'react'
 import { Stage, Text, useGLTF } from '@react-three/drei'
 import { MeshStandardMaterial } from 'three'
 import { CuboidCollider, RigidBody } from '@react-three/rapier'
+import { Bloom, EffectComposer } from '@react-three/postprocessing'
 
-export default function Model({ totalScore, setTotalScore }) {
+export default function Model({ totalScore, setTotalScore, fireworksActive }) {
   const { nodes, materials } = useGLTF('/snowman.glb')
 
 
   return (
     <group>
+      {fireworksActive && <EffectComposer multisampling={0} disableNormalPass={true}>
+        <Bloom
+          luminanceThreshold={0}
+          luminanceSmoothing={0.9}
+          height={300}
+          opacity={3}
+        />
+        <meshStandardMaterial emissive="red" emissiveIntensity={2} toneMapped={false} />
+      </EffectComposer>}
       <Stage>
         <RigidBody position={[0, 0, 10]} type='fixed' friction={0} colliders='trimesh' scale={2}>
           <group dispose={null} >

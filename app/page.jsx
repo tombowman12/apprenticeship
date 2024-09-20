@@ -7,6 +7,7 @@ import { Canvas } from '@react-three/fiber'
 import React, { Suspense, useEffect, useRef, useState } from 'react'
 import { Physics, RigidBody } from "@react-three/rapier"
 import Fireworks from 'react-canvas-confetti/dist/presets/fireworks'
+import { Bloom } from '@react-three/postprocessing'
 
 const Page = () => {
   const [numberOfSandBags, setNumberOfSandBags] = useState(0)
@@ -33,7 +34,6 @@ const Page = () => {
       return
     }
 
-    setThrowsLeft(throwsLeft - 1)
 
     // Set cooldown to prevent spamming
     setCooldownActive(true)
@@ -72,18 +72,29 @@ const Page = () => {
     }
   }
 
+  useEffect(() => {
+    //add vevent listener for keydown
+    window.addEventListener('keydown', handleSpaceClick)
+
+    //cleanup
+
+    return () => {
+
+      window.removeEventListener('keydown', handleSpaceClick)
+
+    }
+
+  }, [])
+
 
   return (
     <div className='w-screen h-screen'>
-      {fireworksActive && <Fireworks autorun={{ duration: 1 }} />}
-      <Canvas flat linear camera={{ fov: 75, position: [-20, 40, 80] }} >
+      <Canvas flat linear camera={{ fov: 75, position: [-20, 40, 80] }} className='bg-gray-300' >
         <Html fullscreen // Wrapping element (default: 'div')
         // The className of the wrapping element (default: undefined)
         >
           <div className='flex items-center'>
-            <button onClick={handleSpaceClick} className=' select-none m-4 bg-[#11059f] text-white font-medium rounded-full px-4 '>Throw</button>
-            {throwsLeft > 0 && <p className='ml-4 select-none'>{throwsLeft} left!</p>}
-            {throwsLeft === 0 && <p className='ml-4 select-none'>No throws left!</p>}
+            <button onClick={handleSpaceClick} className=' select-none m-4 bg-[#000000] text-white font-medium rounded-full px-4 '>Throw</button>
           </div>
         </Html>
         <Environment preset='city' />
@@ -100,7 +111,7 @@ const Page = () => {
                 )
               })}
             </group>
-            <Model totalScore={totalScore} setTotalScore={setTotalScore} />
+            <Model fireworksActive={fireworksActive} totalScore={totalScore} setTotalScore={setTotalScore} />
             <RigidBody type='fixed' sensor onIntersectionEnter={(info) => handleCollision(info)} ref={sensorRef} position={[0, 0, - 0.503]} rotation={[-5.15, 0, 0]} >
               <mesh>
                 <boxGeometry args={[4, 0.1, 8]}>
